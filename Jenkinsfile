@@ -1,16 +1,20 @@
-@Library('my-shared-library') _
-def yamlFile = "playbook-vars.yml"
-def yaml = readYaml(yamlFile)
-def extraVars = "supler vars=\"${yaml}\" silent=true"
+@Library('yaml-supler') _
+import com.lesfurets.jenkins.yaml.dsl.YamlPipeline
 
-pipeline {
-  agent any
-  
-  stages {
-    stage('Run Ansible Playbook') {
-      steps {
-        sh "ansible-playbook playbook.yml --extra-vars '${extraVars}'"
-      }
+def yaml = loadYaml 'vars.yml'
+
+new YamlPipeline()
+    .withEnv(yaml)
+    .pipeline {
+        agent any
+        stages {
+            stage('Print variables') {
+                steps {
+                    echo "Var 1: ${env.var1}"
+                    echo "Var 2: ${env.var2}"
+                    echo "Var 3: ${env.var3}"
+                }
+            }
+        }
     }
-  }
-}
+

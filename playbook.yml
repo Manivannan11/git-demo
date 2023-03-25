@@ -1,0 +1,13 @@
+---
+- name: My Playbook
+  hosts: all
+  tasks:
+    - name: Print variables
+      debug:
+        var: "{{ var1 }}"
+    - name: Print variables
+      debug:
+        var: "{{ var2 }}"
+    - name: Print variables
+      debug:
+        var: "{{ var3 }}"
